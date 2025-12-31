@@ -11,6 +11,8 @@
   NODE_VERSION = "20"
   # Next.js environment
   NEXT_TELEMETRY_DISABLED = "1"
+  # Increase Node.js memory limit for builds
+  NODE_OPTIONS = "--max-old-space-size=4096"
 
 # Plugin for Next.js support (automatically handles routing)
 [[plugins]]
