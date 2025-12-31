@@ -1,0 +1,50 @@
+[build]
+  # Base directory for the build (where package.json is located)
+  base = "studio"
+  # Build command
+  command = "npm run build"
+  # Publish directory (Netlify Next.js plugin handles this automatically, but we set it as fallback)
+  publish = "studio/.next"
+
+[build.environment]
+  # Node version
+  NODE_VERSION = "20"
+  # Next.js environment
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Plugin for Next.js support (automatically handles routing)
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/_next/image/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Environment variables (set these in Netlify dashboard)
+# [context.production.environment]
+#   NEXT_PUBLIC_API_URL = "https://your-api-url.com"
+
+# [context.development.environment]
+#   NEXT_PUBLIC_API_URL = "http://localhost:8000"
+

@@ -15,7 +15,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    unoptimized: true,
+    unoptimized: true, // Required for Netlify deployment
   },
   async rewrites() {
     // Only use rewrites in development - nginx handles routing in production
