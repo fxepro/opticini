@@ -109,6 +109,11 @@ urlpatterns += [
     path('api/collateral/', include('collateral.urls')),  # Learning Materials (Collateral)
     path('api/affiliates/', include('affiliates.urls')),  # Affiliates Management
     path('api/security/', include('security_monitoring.urls')),  # Security Monitoring
+    # Compliance Module
+    path('', include('compliance_frameworks.urls')),  # Compliance Frameworks
+    path('api/compliance/', include('compliance_controls.urls')),  # Compliance Controls
+    path('api/compliance/', include('compliance_evidence.urls')),  # Compliance Evidence
+    path('api/compliance/tools/', include('compliance_tools.urls')),  # Compliance Tools
     path('favicon.ico', favicon_view, name='favicon'),  # Prevent 404s in logs
 ]
 

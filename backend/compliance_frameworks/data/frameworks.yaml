@@ -1,0 +1,66 @@
+# Compliance Frameworks Data
+# Source: Authoritative data sources (OpenControl, PCI SSC, ISO Annex A)
+# Last Updated: 2026-01-07
+# Note: Only frameworks with authoritative sources are included
+
+frameworks:
+  # SOC 2 Frameworks
+  # Source: OpenControl (GitHub: opencontrol/schemas, opencontrol/compliance-masonry)
+  # License: Apache 2.0
+  - name: "SOC 2 Type I"
+    code: "SOC2-T1"
+    category: "security"
+    description: "Service Organization Control 2 Type I - Point in time assessment. SOC 2 is a framework for evaluating the design and operating effectiveness of controls related to security, availability, processing integrity, confidentiality, and privacy. Type I reports assess controls at a specific point in time."
+    icon: "ShieldCheck"
+    enabled: true
+    status: "not_started"
+    source: "OpenControl"
+    source_url: "https://github.com/opencontrol/compliance-masonry"
+    source_license: "Apache 2.0"
+
+  - name: "SOC 2 Type II"
+    code: "SOC2-T2"
+    category: "security"
+    description: "Service Organization Control 2 Type II - Period of time assessment. SOC 2 Type II reports assess the design and operating effectiveness of controls over a period of time (typically 6-12 months). This is the more comprehensive assessment compared to Type I."
+    icon: "ShieldCheck"
+    enabled: true
+    status: "not_started"
+    source: "OpenControl"
+    source_url: "https://github.com/opencontrol/compliance-masonry"
+    source_license: "Apache 2.0"
+
+  # PCI-DSS Framework
+  # Source: PCI SSC Quick Guide (Public)
+  # GitHub: complytime/complytime-pci-dss
+  - name: "PCI-DSS v4.0"
+    code: "PCI-DSS-4"
+    category: "industry"
+    description: "Payment Card Industry Data Security Standard version 4.0. PCI-DSS is a set of security standards designed to ensure that all companies that accept, process, store, or transmit credit card information maintain a secure environment. Version 4.0 was released in 2022."
+    icon: "CreditCard"
+    enabled: true
+    status: "not_started"
+    source: "PCI SSC"
+    source_url: "https://github.com/complytime/complytime-pci-dss"
+    source_license: "Public"
+
+  # ISO 27001 Framework
+  # Source: ISO Annex A (Public Structure)
+  # GitHub: center-for-threat-informed-defense/attack-control-framework-mappings
+  # GitHub: OWASP/ASVS
+  - name: "ISO/IEC 27001:2022"
+    code: "ISO27001-2022"
+    category: "security"
+    description: "ISO/IEC 27001:2022 - Information Security Management System. An international standard that provides a framework for managing information security. The 2022 version includes 93 controls organized into 4 themes: Organizational, People, Physical, and Technological."
+    icon: "Shield"
+    enabled: true
+    status: "not_started"
+    source: "ISO Annex A"
+    source_url: "https://github.com/center-for-threat-informed-defense/attack-control-framework-mappings"
+    source_license: "Public"
+
+  # Note: The following frameworks do not have authoritative open-source data sources
+  # They are kept for reference but should be updated manually or from official sources
+  # - GDPR: No authoritative open-source control catalog
+  # - HIPAA: No authoritative open-source control catalog
+  # - NIST 800-53: Available via OSCAL (NIST), but not included in initial load
+  # - CIS Controls: Available via CIS, but requires license for full details

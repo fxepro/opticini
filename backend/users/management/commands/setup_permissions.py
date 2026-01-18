@@ -21,9 +21,40 @@ class Command(BaseCommand):
         PERMISSIONS = [
             # Workspace
             {'code': 'dashboard.view', 'name': 'View Dashboard', 'category': 'workspace', 'description': 'View workspace overview'},
+            {'code': 'workspace.overview.view', 'name': 'View Workspace Overview', 'category': 'workspace', 'description': 'View workspace overview page'},
             {'code': 'dashboard.edit', 'name': 'Edit Dashboard', 'category': 'workspace', 'description': 'Edit dashboard settings'},
             
+            # Compliance
+            {'code': 'compliance.view', 'name': 'View Compliance', 'category': 'compliance', 'description': 'View compliance information and reports'},
+            {'code': 'compliance.overview.view', 'name': 'View Compliance Overview', 'category': 'compliance', 'description': 'View compliance overview'},
+            {'code': 'compliance.chat.view', 'name': 'View Compliance Chat', 'category': 'compliance', 'description': 'Access compliance chat assistant'},
+            {'code': 'compliance.create', 'name': 'Create Compliance Reports', 'category': 'compliance', 'description': 'Create compliance reports'},
+            {'code': 'compliance.edit', 'name': 'Edit Compliance', 'category': 'compliance', 'description': 'Edit compliance settings'},
+            {'code': 'compliance.frameworks.view', 'name': 'View Compliance Frameworks', 'category': 'compliance', 'description': 'View compliance frameworks (SOC2, ISO, GDPR, HIPAA)'},
+            {'code': 'compliance.frameworks.edit', 'name': 'Edit Compliance Frameworks', 'category': 'compliance', 'description': 'Edit compliance frameworks'},
+            {'code': 'compliance.controls.view', 'name': 'View Compliance Controls', 'category': 'compliance', 'description': 'View individual compliance controls'},
+            {'code': 'compliance.controls.edit', 'name': 'Edit Compliance Controls', 'category': 'compliance', 'description': 'Edit compliance controls'},
+            {'code': 'compliance.evidence.view', 'name': 'View Compliance Evidence', 'category': 'compliance', 'description': 'View compliance evidence (auto + manual)'},
+            {'code': 'compliance.evidence.create', 'name': 'Create Compliance Evidence', 'category': 'compliance', 'description': 'Create compliance evidence'},
+            {'code': 'compliance.evidence.edit', 'name': 'Edit Compliance Evidence', 'category': 'compliance', 'description': 'Edit compliance evidence'},
+            {'code': 'compliance.policies.view', 'name': 'View Compliance Policies', 'category': 'compliance', 'description': 'View generated compliance policies'},
+            {'code': 'compliance.policies.create', 'name': 'Create Compliance Policies', 'category': 'compliance', 'description': 'Generate compliance policies'},
+            {'code': 'compliance.policies.edit', 'name': 'Edit Compliance Policies', 'category': 'compliance', 'description': 'Edit compliance policies'},
+            {'code': 'compliance.audits.view', 'name': 'View Compliance Audits', 'category': 'compliance', 'description': 'View audit sessions and reviewers'},
+            {'code': 'compliance.audits.create', 'name': 'Create Compliance Audits', 'category': 'compliance', 'description': 'Create audit sessions'},
+            {'code': 'compliance.audits.edit', 'name': 'Edit Compliance Audits', 'category': 'compliance', 'description': 'Edit audit sessions'},
+            {'code': 'compliance.reports.view', 'name': 'View Compliance Reports', 'category': 'compliance', 'description': 'View compliance exports and attestations'},
+            {'code': 'compliance.reports.export', 'name': 'Export Compliance Reports', 'category': 'compliance', 'description': 'Export compliance reports and attestations'},
+            {'code': 'compliance.tools.view', 'name': 'View Compliance Tools', 'category': 'compliance', 'description': 'View compliance tools configuration'},
+            {'code': 'compliance.tools.edit', 'name': 'Edit Compliance Tools', 'category': 'compliance', 'description': 'Edit compliance tools configuration'},
+            
+            # Evidence
+            {'code': 'evidence.view', 'name': 'View Evidence', 'category': 'evidence', 'description': 'View evidence and audit trails'},
+            {'code': 'evidence.create', 'name': 'Create Evidence', 'category': 'evidence', 'description': 'Create evidence records'},
+            {'code': 'evidence.edit', 'name': 'Edit Evidence', 'category': 'evidence', 'description': 'Edit evidence records'},
+            
             # User Features
+            {'code': 'user_features.overview.view', 'name': 'View User Features Overview', 'category': 'user_features', 'description': 'View user tools overview'},
             {'code': 'site_audit.view', 'name': 'View Site Audits', 'category': 'user_features', 'description': 'View site audit reports'},
             {'code': 'site_audit.create', 'name': 'Create Site Audits', 'category': 'user_features', 'description': 'Create new site audits'},
             {'code': 'site_audit.delete', 'name': 'Delete Site Audits', 'category': 'user_features', 'description': 'Delete site audit reports'},
@@ -43,16 +74,22 @@ class Command(BaseCommand):
             {'code': 'wordpress.view', 'name': 'View WordPress', 'category': 'user_features', 'description': 'View WordPress integration'},
             {'code': 'communication.view', 'name': 'View Communication', 'category': 'user_features', 'description': 'View communication integrations'},
             {'code': 'api_monitoring_user.view', 'name': 'View API Monitoring (User)', 'category': 'user_features', 'description': 'View API monitoring for user features'},
+            {'code': 'collateral.overview.view', 'name': 'View Collateral Overview', 'category': 'collateral', 'description': 'View collateral overview'},
             {'code': 'collateral.view', 'name': 'View Collateral', 'category': 'collateral', 'description': 'View learning resources and collateral'},
             {'code': 'collateral.create', 'name': 'Create Collateral', 'category': 'collateral', 'description': 'Create new learning materials'},
             {'code': 'collateral.edit', 'name': 'Edit Collateral', 'category': 'collateral', 'description': 'Edit learning materials'},
             {'code': 'collateral.delete', 'name': 'Delete Collateral', 'category': 'collateral', 'description': 'Delete learning materials'},
             
+            # Integrations
+            {'code': 'integrations.overview.view', 'name': 'View Integrations Overview', 'category': 'integrations', 'description': 'View integrations overview'},
+
             # Account
+            {'code': 'account.overview.view', 'name': 'View Account Overview', 'category': 'account', 'description': 'View account overview'},
             {'code': 'profile.view', 'name': 'View Profile', 'category': 'account', 'description': 'View user profile'},
             {'code': 'profile.edit', 'name': 'Edit Profile', 'category': 'account', 'description': 'Edit own profile'},
             
             # Admin Features
+            {'code': 'admin_features.overview.view', 'name': 'View Admin Overview', 'category': 'admin_features', 'description': 'View admin overview'},
             {'code': 'users.view', 'name': 'View Users', 'category': 'admin_features', 'description': 'View user management'},
             {'code': 'users.create', 'name': 'Create Users', 'category': 'admin_features', 'description': 'Create new users'},
             {'code': 'users.edit', 'name': 'Edit Users', 'category': 'admin_features', 'description': 'Edit user accounts'},
@@ -130,14 +167,43 @@ class Command(BaseCommand):
         ROLE_PERMISSIONS = {
             'Viewer': [
                 'dashboard.view',  # Workspace Overview
+                'workspace.overview.view',
+                'compliance.view',  # Compliance
+                'compliance.overview.view',
+                'compliance.chat.view',
+                'compliance.frameworks.view',  # Compliance Frameworks
+                'compliance.controls.view',  # Compliance Controls
+                'compliance.evidence.view',  # Compliance Evidence
+                'compliance.policies.view',  # Compliance Policies
+                'compliance.audits.view',  # Compliance Audits
+                'compliance.reports.view',  # Compliance Reports
+                'evidence.view',  # Evidence
+                'user_features.overview.view',
                 'site_audit.view',  # Site Audit
                 'reports.view',  # Reports
+                'collateral.overview.view',
                 'collateral.view',  # Collateral - Learning & Resources
+                'account.overview.view',
                 'profile.view',
                 'profile.edit',
             ],
             'Analyst': [
                 'dashboard.view',
+                'workspace.overview.view',
+                'compliance.view',  # Compliance
+                'compliance.overview.view',
+                'compliance.chat.view',
+                'compliance.frameworks.view',  # Compliance Frameworks
+                'compliance.controls.view',  # Compliance Controls
+                'compliance.evidence.view',  # Compliance Evidence
+                'compliance.evidence.create',  # Compliance Evidence
+                'compliance.policies.view',  # Compliance Policies
+                'compliance.audits.view',  # Compliance Audits
+                'compliance.reports.view',  # Compliance Reports
+                'compliance.reports.export',  # Compliance Reports
+                'compliance.tools.view',  # Compliance Tools
+                'evidence.view',  # Evidence
+                'user_features.overview.view',
                 'site_audit.view',
                 'site_audit.create',
                 'performance.view',
@@ -147,12 +213,42 @@ class Command(BaseCommand):
                 'reports.view',
                 'reports.export',
                 'collateral.view',  # Collateral - Learning & Resources
+                'collateral.overview.view',
+                'integrations.overview.view',
+                'account.overview.view',
                 'profile.view',
                 'profile.edit',
             ],
             'Manager': [
                 'dashboard.view',
+                'workspace.overview.view',
                 'dashboard.edit',
+                'compliance.view',  # Compliance
+                'compliance.overview.view',
+                'compliance.chat.view',
+                'compliance.create',  # Compliance
+                'compliance.edit',  # Compliance
+                'compliance.frameworks.view',  # Compliance Frameworks
+                'compliance.frameworks.edit',  # Compliance Frameworks
+                'compliance.controls.view',  # Compliance Controls
+                'compliance.controls.edit',  # Compliance Controls
+                'compliance.evidence.view',  # Compliance Evidence
+                'compliance.evidence.create',  # Compliance Evidence
+                'compliance.evidence.edit',  # Compliance Evidence
+                'compliance.policies.view',  # Compliance Policies
+                'compliance.policies.create',  # Compliance Policies
+                'compliance.policies.edit',  # Compliance Policies
+                'compliance.audits.view',  # Compliance Audits
+                'compliance.audits.create',  # Compliance Audits
+                'compliance.audits.edit',  # Compliance Audits
+                'compliance.reports.view',  # Compliance Reports
+                'compliance.reports.export',  # Compliance Reports
+                'compliance.tools.view',  # Compliance Tools
+                'compliance.tools.edit',  # Compliance Tools
+                'evidence.view',  # Evidence
+                'evidence.create',  # Evidence
+                'evidence.edit',  # Evidence
+                'user_features.overview.view',
                 'site_audit.view',
                 'site_audit.create',
                 'site_audit.delete',
@@ -172,12 +268,42 @@ class Command(BaseCommand):
                 'communication.view',
                 'api_monitoring_user.view',
                 'collateral.view',  # Collateral - Learning & Resources
+                'collateral.overview.view',
+                'integrations.overview.view',
+                'account.overview.view',
                 'profile.view',
                 'profile.edit',
             ],
             'Director': [
                 'dashboard.view',
+                'workspace.overview.view',
                 'dashboard.edit',
+                'compliance.view',  # Compliance
+                'compliance.overview.view',
+                'compliance.chat.view',
+                'compliance.create',  # Compliance
+                'compliance.edit',  # Compliance
+                'compliance.frameworks.view',  # Compliance Frameworks
+                'compliance.frameworks.edit',  # Compliance Frameworks
+                'compliance.controls.view',  # Compliance Controls
+                'compliance.controls.edit',  # Compliance Controls
+                'compliance.evidence.view',  # Compliance Evidence
+                'compliance.evidence.create',  # Compliance Evidence
+                'compliance.evidence.edit',  # Compliance Evidence
+                'compliance.policies.view',  # Compliance Policies
+                'compliance.policies.create',  # Compliance Policies
+                'compliance.policies.edit',  # Compliance Policies
+                'compliance.audits.view',  # Compliance Audits
+                'compliance.audits.create',  # Compliance Audits
+                'compliance.audits.edit',  # Compliance Audits
+                'compliance.reports.view',  # Compliance Reports
+                'compliance.reports.export',  # Compliance Reports
+                'compliance.tools.view',  # Compliance Tools
+                'compliance.tools.edit',  # Compliance Tools
+                'evidence.view',  # Evidence
+                'evidence.create',  # Evidence
+                'evidence.edit',  # Evidence
+                'user_features.overview.view',
                 'site_audit.view',
                 'site_audit.create',
                 'site_audit.delete',
@@ -196,6 +322,7 @@ class Command(BaseCommand):
                 'google_analytics.view',
                 'communication.view',
                 'api_monitoring_user.view',
+                'integrations.overview.view',
                 'profile.view',
                 'profile.edit',
                 'analytics.view',
@@ -210,13 +337,43 @@ class Command(BaseCommand):
                 'commissions.approve',
                 'payouts.view',
                 'payouts.process',
+                'admin_features.overview.view',
                 'users.view',
                 'collateral.view',  # Collateral - Learning & Resources
+                'collateral.overview.view',
+                'account.overview.view',
             ],
             'Executive': [
                 # Executive has all Director permissions plus additional admin capabilities
                 'dashboard.view',
+                'workspace.overview.view',
                 'dashboard.edit',
+                'compliance.view',  # Compliance
+                'compliance.overview.view',
+                'compliance.chat.view',
+                'compliance.create',  # Compliance
+                'compliance.edit',  # Compliance
+                'compliance.frameworks.view',  # Compliance Frameworks
+                'compliance.frameworks.edit',  # Compliance Frameworks
+                'compliance.controls.view',  # Compliance Controls
+                'compliance.controls.edit',  # Compliance Controls
+                'compliance.evidence.view',  # Compliance Evidence
+                'compliance.evidence.create',  # Compliance Evidence
+                'compliance.evidence.edit',  # Compliance Evidence
+                'compliance.policies.view',  # Compliance Policies
+                'compliance.policies.create',  # Compliance Policies
+                'compliance.policies.edit',  # Compliance Policies
+                'compliance.audits.view',  # Compliance Audits
+                'compliance.audits.create',  # Compliance Audits
+                'compliance.audits.edit',  # Compliance Audits
+                'compliance.reports.view',  # Compliance Reports
+                'compliance.reports.export',  # Compliance Reports
+                'compliance.tools.view',  # Compliance Tools
+                'compliance.tools.edit',  # Compliance Tools
+                'evidence.view',  # Evidence
+                'evidence.create',  # Evidence
+                'evidence.edit',  # Evidence
+                'user_features.overview.view',
                 'site_audit.view',
                 'site_audit.create',
                 'site_audit.delete',
@@ -235,6 +392,10 @@ class Command(BaseCommand):
                 'google_analytics.view',
                 'communication.view',
                 'api_monitoring_user.view',
+                'integrations.overview.view',
+                'admin_features.overview.view',
+                'collateral.overview.view',
+                'account.overview.view',
                 'profile.view',
                 'profile.edit',
                 'analytics.view',
@@ -265,7 +426,34 @@ class Command(BaseCommand):
             'Agency': [
                 # Agency role for managing multiple clients - similar to Director with user management
                 'dashboard.view',
+                'workspace.overview.view',
                 'dashboard.edit',
+                'compliance.view',  # Compliance
+                'compliance.overview.view',
+                'compliance.chat.view',
+                'compliance.create',  # Compliance
+                'compliance.edit',  # Compliance
+                'compliance.frameworks.view',  # Compliance Frameworks
+                'compliance.frameworks.edit',  # Compliance Frameworks
+                'compliance.controls.view',  # Compliance Controls
+                'compliance.controls.edit',  # Compliance Controls
+                'compliance.evidence.view',  # Compliance Evidence
+                'compliance.evidence.create',  # Compliance Evidence
+                'compliance.evidence.edit',  # Compliance Evidence
+                'compliance.policies.view',  # Compliance Policies
+                'compliance.policies.create',  # Compliance Policies
+                'compliance.policies.edit',  # Compliance Policies
+                'compliance.audits.view',  # Compliance Audits
+                'compliance.audits.create',  # Compliance Audits
+                'compliance.audits.edit',  # Compliance Audits
+                'compliance.reports.view',  # Compliance Reports
+                'compliance.reports.export',  # Compliance Reports
+                'compliance.tools.view',  # Compliance Tools
+                'compliance.tools.edit',  # Compliance Tools
+                'evidence.view',  # Evidence
+                'evidence.create',  # Evidence
+                'evidence.edit',  # Evidence
+                'user_features.overview.view',
                 'site_audit.view',
                 'site_audit.create',
                 'site_audit.delete',
@@ -284,9 +472,11 @@ class Command(BaseCommand):
                 'google_analytics.view',
                 'communication.view',
                 'api_monitoring_user.view',
+                'integrations.overview.view',
                 'profile.view',
                 'profile.edit',
                 'analytics.view',
+                'admin_features.overview.view',
                 'users.view',
                 'users.create',
                 'users.edit',
@@ -298,10 +488,26 @@ class Command(BaseCommand):
                 'commissions.view',
                 'payouts.view',
                 'collateral.view',  # Collateral - Learning & Resources
+                'collateral.overview.view',
+                'account.overview.view',
             ],
             'Auditor': [
                 # Auditor role - read-only access with reporting capabilities
                 'dashboard.view',
+                'workspace.overview.view',
+                'compliance.view',  # Compliance
+                'compliance.overview.view',
+                'compliance.chat.view',
+                'compliance.frameworks.view',  # Compliance Frameworks
+                'compliance.controls.view',  # Compliance Controls
+                'compliance.evidence.view',  # Compliance Evidence
+                'compliance.policies.view',  # Compliance Policies
+                'compliance.audits.view',  # Compliance Audits
+                'compliance.reports.view',  # Compliance Reports
+                'compliance.reports.export',  # Compliance Reports
+                'compliance.tools.view',  # Compliance Tools
+                'evidence.view',  # Evidence
+                'user_features.overview.view',
                 'site_audit.view',
                 'performance.view',
                 'monitoring.view',
@@ -314,6 +520,8 @@ class Command(BaseCommand):
                 'google_analytics.view',
                 'communication.view',
                 'api_monitoring_user.view',
+                'integrations.overview.view',
+                'account.overview.view',
                 'profile.view',
                 'profile.edit',
                 'analytics.view',

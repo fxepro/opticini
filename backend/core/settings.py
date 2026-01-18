@@ -159,6 +159,10 @@ FRONTEND_URL = os.getenv("FRONTEND_URL")
 NEXT_PUBLIC_APP_URL = os.getenv("NEXT_PUBLIC_APP_URL")  # Alternative name for Next.js compatibility
 NEXT_PUBLIC_API_BASE_URL = os.getenv("NEXT_PUBLIC_API_BASE_URL")
 
+# Media (uploads)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
 # CSRF_TRUSTED_ORIGINS - required for Django 4.0+ to allow CSRF from these origins
 # Set via environment variable as comma-separated list: http://129.146.57.158,https://pagerodeo.com,http://pagerodeo.com
 # In production, MUST include your production domain (both HTTP and HTTPS if applicable)
@@ -228,6 +232,14 @@ INSTALLED_APPS = [
     'db_management',
     'collateral',  # Learning Materials (Collateral)
     'security_monitoring',  # Security Monitoring External Testing
+    # Compliance Module
+    'compliance_frameworks',
+    'compliance_controls',
+    'compliance_evidence',
+    'compliance_policies',
+    'compliance_audits',
+    'compliance_reports',
+    'compliance_tools',
 ]
 
 MIDDLEWARE = [

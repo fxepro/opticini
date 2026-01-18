@@ -195,25 +195,81 @@ export default function ToolsManagementPage() {
     loadSecurityTools();
   }, []);
 
+  // Helper function to refresh access token
+  const refreshAccessToken = async (): Promise<string | null> => {
+    const refreshToken = localStorage.getItem("refresh_token");
+    if (!refreshToken) {
+      return null;
+    }
+    
+    try {
+      const apiBase = getApiBaseUrl();
+      const res = await fetch(`${apiBase}/api/token/refresh/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh: refreshToken }),
+      });
+      
+      if (!res.ok) {
+        throw new Error('Token refresh failed');
+      }
+      
+      const data = await res.json();
+      const newAccessToken = data.access;
+      localStorage.setItem("access_token", newAccessToken);
+      // Update refresh token if a new one is provided (token rotation)
+      if (data.refresh) {
+        localStorage.setItem("refresh_token", data.refresh);
+      }
+      return newAccessToken;
+    } catch (err) {
+      console.error("Token refresh failed:", err);
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      // Redirect to login on refresh failure
+      if (typeof window !== 'undefined') {
+        window.location.href = '/workspace/login';
+      }
+      return null;
+    }
+  };
+
   const makeAuthenticatedRequest = async (url: string, method: string = 'GET', data?: any) => {
-    const token = localStorage.getItem("access_token");
+    let token = localStorage.getItem("access_token");
     if (!token) {
       throw new Error("No access token found");
     }
 
-    const options: RequestInit = {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+    const makeRequest = async (currentToken: string) => {
+      const options: RequestInit = {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentToken}`,
+        },
+      };
+
+      if (data && method !== 'GET') {
+        options.body = JSON.stringify(data);
+      }
+
+      return await fetch(url, options);
     };
 
-    if (data && method !== 'GET') {
-      options.body = JSON.stringify(data);
+    let response = await makeRequest(token);
+    
+    // If 401, try to refresh token and retry
+    if (response.status === 401) {
+      const newToken = await refreshAccessToken();
+      if (newToken) {
+        response = await makeRequest(newToken);
+      } else {
+        // Refresh failed, redirect will happen in refreshAccessToken
+        const errorData = await response.json().catch(() => ({ error: 'Unauthorized' }));
+        throw new Error(errorData.error || `Request failed with status ${response.status}`);
+      }
     }
 
-    const response = await fetch(url, options);
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({ error: 'Request failed' }));
       throw new Error(errorData.error || `Request failed with status ${response.status}`);
@@ -436,6 +492,7 @@ export default function ToolsManagementPage() {
       return Settings;
     }
   };
+
 
   return (
     <div className="space-y-6">

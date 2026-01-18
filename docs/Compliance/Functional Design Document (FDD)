@@ -1,0 +1,336 @@
+# Opticini Compliance
+
+## Functional Design Document (FDD)
+
+**Scope:** Compliance Module (6 Functional Apps)
+
+---
+
+## 1. Compliance → Frameworks
+
+### Purpose
+
+The Frameworks app defines what compliance standards the organization cares about and measures overall readiness against each one.
+
+**It answers:**
+
+> "Which standards apply to us, and how ready are we?"
+
+### What This App Does
+
+- Enables or disables compliance frameworks per organization
+- Tracks readiness score for each framework
+- Aggregates control-level results into executive-level views
+- Acts as the entry point into compliance
+
+### Supported Frameworks (Initial)
+
+- SOC 2 (Type I readiness)
+- ISO 27001
+- GDPR
+- HIPAA (Phase 2)
+- AI Governance / AI Act readiness
+
+### Tools & Integrations Needed
+
+#### Internal
+
+- Control library (shared with Controls app)
+- Evidence engine (read-only)
+- Reporting engine
+
+#### External / Open Source
+
+- OSCAL control catalogs (reference data)
+- OpenControl-style mappings
+
+### Remote Software / Agents Required
+
+❌ **None** (Frameworks is metadata + aggregation only)
+
+### Results Achieved
+
+- Clear compliance applicability
+- Executive-ready readiness scores
+- Prioritization of remediation work
+- Investor & auditor-friendly overview
+
+---
+
+## 2. Compliance → Controls
+
+### Purpose
+
+The Controls app is where compliance actually happens.
+
+**It answers:**
+
+> "Which specific requirements are passing or failing, and why?"
+
+### What This App Does
+
+- Lists all compliance controls across frameworks
+- Shows real-time control status (Pass / Fail / Partial)
+- Explains reasons for failures
+- Links evidence automatically
+- Provides remediation guidance
+
+### Key Functional Capabilities
+
+- Filter controls by framework, risk, severity
+- Map one control to multiple frameworks
+- Track control history and drift
+- Identify "common controls" (single fix, many frameworks)
+
+### Tools & Integrations Needed
+
+#### Security & Infra Evidence
+
+- OWASP ZAP (DAST)
+- Trivy (vulnerabilities)
+- SSLyze (TLS)
+- SecurityHeaders (HTTP hardening)
+- Prowler (Cloud posture)
+- Gitleaks (secrets)
+
+#### Governance & Policy
+
+- Open Policy Agent (OPA)
+- AI Monitoring (Opticini-native)
+
+### Remote Software / Agents Required
+
+**Optional** depending on customer environment:
+
+- Container scanners (Trivy)
+- Cloud account access (read-only IAM)
+- Git repo access (secrets scan)
+
+### Results Achieved
+
+- Actionable compliance visibility
+- Reduced audit prep time
+- Clear remediation roadmap
+- Continuous compliance posture
+
+---
+
+## 3. Compliance → Evidence
+
+### Purpose
+
+The Evidence app is the single source of truth for audit-proof documentation.
+
+**It answers:**
+
+> "What proof do we have, and is it still valid?"
+
+### What This App Does
+
+- Stores all compliance evidence (automated + manual)
+- Tracks freshness and validity
+- Links evidence to controls
+- Supports manual uploads
+- Locks evidence during audits
+
+### Types of Evidence
+
+- Scan results (security, TLS, API)
+- Logs (access, AI usage, data flow)
+- Config snapshots
+- Screenshots & PDFs
+- Policy documents
+
+### Tools & Integrations Needed
+
+#### Automated Evidence Sources
+
+- All scanners listed under Controls
+- AI Monitoring system
+- Metrics & logging systems
+
+#### Manual Evidence
+
+- File upload system
+- Document preview engine
+
+### Remote Software / Agents Required
+
+**Optional** read-only connectors:
+
+- Cloud accounts
+- CI/CD pipelines
+- Git repositories
+
+### Results Achieved
+
+- Audit-ready evidence repository
+- Reduced manual documentation effort
+- Evidence traceability
+- Zero "scramble before audit"
+
+---
+
+## 4. Compliance → Policies
+
+### Purpose
+
+The Policies app turns actual system behavior into formal documentation.
+
+**It answers:**
+
+> "Do our written policies match reality?"
+
+### What This App Does
+
+- Auto-generates policies based on observed configs
+- Tracks versions and approvals
+- Highlights mismatches between policy and practice
+- Exports auditor-ready policy documents
+
+### Policy Types
+
+- Information Security Policy
+- Data Retention Policy
+- Incident Response Plan
+- AI Usage & Governance Policy
+- Vendor Risk Policy
+
+### Tools & Integrations Needed
+
+- Open Policy Agent (OPA)
+- Evidence engine
+- AI monitoring data
+- Document generation engine
+
+### Remote Software / Agents Required
+
+❌ **None** (Policies are derived centrally)
+
+### Results Achieved
+
+- Always-up-to-date policies
+- Reduced legal & compliance risk
+- Faster audits
+- Stronger governance posture
+
+---
+
+## 5. Compliance → Audits
+
+### Purpose
+
+The Audits app manages time-bound compliance events.
+
+**It answers:**
+
+> "Are we ready for this audit, and what is its status?"
+
+### What This App Does
+
+- Creates audit sessions (SOC 2, annual review)
+- Freezes evidence at a point in time
+- Assigns auditors
+- Tracks audit progress and findings
+- Maintains audit history
+
+### Audit Types
+
+- SOC 2 readiness
+- External audits
+- Internal audits
+- Customer security reviews
+
+### Tools & Integrations Needed
+
+- Evidence repository
+- Reporting engine
+- Secure read-only access system
+
+### Remote Software / Agents Required
+
+❌ **None**
+
+### Results Achieved
+
+- Structured audit workflows
+- Controlled auditor access
+- Reduced audit fatigue
+- Historical audit traceability
+
+---
+
+## 6. Compliance → Reports
+
+### Purpose
+
+The Reports app produces formal outputs for stakeholders.
+
+**It answers:**
+
+> "How do we communicate our compliance status?"
+
+### What This App Does
+
+- Generates compliance reports
+- Supports executive, technical, and auditor views
+- Packages evidence
+- Enables secure sharing
+
+### Report Types
+
+- SOC 2 Readiness Report
+- ISO 27001 Gap Analysis
+- GDPR Technical Compliance Report
+- AI Governance Summary
+- Continuous Compliance Report
+
+### Tools & Integrations Needed
+
+- Report templating engine
+- Evidence repository
+- Framework scoring engine
+
+### Remote Software / Agents Required
+
+❌ **None**
+
+### Results Achieved
+
+- Investor-grade documentation
+- Faster sales security reviews
+- Clear compliance storytelling
+- Reduced back-and-forth with auditors
+
+---
+
+## Cross-Cutting Functional Principles
+
+### 1. Continuous Compliance
+
+Compliance is always-on, not audit-driven.
+
+### 2. Evidence-First Design
+
+Controls are evaluated only through evidence.
+
+### 3. Least Privilege
+
+Remote access is read-only and optional.
+
+### 4. AI-Native Compliance
+
+AI usage is treated as a first-class compliance domain.
+
+---
+
+## Summary Table
+
+| App | Primary Outcome |
+|-----|----------------|
+| **Frameworks** | Strategic readiness |
+| **Controls** | Operational compliance |
+| **Evidence** | Proof & traceability |
+| **Policies** | Governance alignment |
+| **Audits** | Time-bound assurance |
+| **Reports** | External communication |

@@ -16,8 +16,8 @@ class Command(BaseCommand):
                 'primary_color': '#0086ad',
                 'secondary_color': '#005582',
                 'accent_1': '#00c2c7',
-                'accent_2': '#97ebdb',
-                'accent_3': '#daf8e3',
+                'accent_2': '#b6d5eb',
+                'accent_3': '#d7e9f5',
                 'is_active': False,
                 'is_system': True,
             }
@@ -25,7 +25,11 @@ class Command(BaseCommand):
         if created:
             self.stdout.write(self.style.SUCCESS(f'✓ Created palette: {blue_palette.name}'))
         else:
-            self.stdout.write(self.style.WARNING(f'○ Palette already exists: {blue_palette.name}'))
+            # Update existing palette with new accent colors
+            blue_palette.accent_2 = '#b6d5eb'
+            blue_palette.accent_3 = '#d7e9f5'
+            blue_palette.save()
+            self.stdout.write(self.style.SUCCESS(f'✓ Updated palette: {blue_palette.name}'))
         
         # Create default purple palette (current design)
         purple_palette, created = ThemePalette.objects.get_or_create(

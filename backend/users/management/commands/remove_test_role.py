@@ -65,6 +65,9 @@ class Command(BaseCommand):
             # Define Auditor permissions (read-only with reporting)
             auditor_permissions = [
                 'dashboard.view',
+                'workspace.overview.view',
+                'compliance.overview.view',
+                'user_features.overview.view',
                 'site_audit.view',
                 'performance.view',
                 'monitoring.view',
@@ -73,6 +76,8 @@ class Command(BaseCommand):
                 'ai_health.view',
                 'google_analytics.view',
                 'api_monitoring_user.view',
+                'integrations.overview.view',
+                'account.overview.view',
                 'profile.view',
                 'profile.edit',
                 'analytics.view',

@@ -71,13 +71,19 @@ def get_navigation(request):
     Returns:
         Navigation structure with sections and items filtered by permissions
     """
-    # Get user permissions
-    user_permissions_list = get_user_permissions(request.user)
-    
-    # Debug logging (remove in production)
     import logging
     logger = logging.getLogger(__name__)
-    logger.debug(f"User: {request.user.username}, Permissions: {user_permissions_list}")
+    
+    # CRITICAL DEBUG: Log user info
+    logger.info(f"=== NAVIGATION REQUEST ===")
+    logger.info(f"User: {request.user.username}")
+    logger.info(f"is_superuser: {request.user.is_superuser}")
+    logger.info(f"is_staff: {request.user.is_staff}")
+    logger.info(f"is_authenticated: {request.user.is_authenticated}")
+    
+    # Get user permissions
+    user_permissions_list = get_user_permissions(request.user)
+    logger.info(f"Permissions count: {len(user_permissions_list)}")
     
     # Define navigation structure
     # Using existing /dashboard and /admin routes - no new pages created
@@ -90,10 +96,80 @@ def get_navigation(request):
                 "items": [
                     {
                         "id": "overview",
-                        "title": "Overview",
-                        "href": "/workspace",
+                        "title": "Home",
+                        "href": "/workspace/home",
                         "icon": "LayoutDashboard",
-                        "permission": "dashboard.view"
+                        "permission": "workspace.overview.view"
+                    }
+                ]
+            },
+            {
+                "id": "compliance",
+                "title": "Compliance",
+                "icon": "ShieldCheck",
+                "items": [
+                    {
+                        "id": "compliance_overview",
+                        "title": "Overview",
+                        "href": "/workspace/compliance/overview",
+                        "icon": "LayoutDashboard",
+                        "permission": "compliance.overview.view"
+                    },
+                    {
+                        "id": "compliance_chat",
+                        "title": "Chat",
+                        "href": "/workspace/compliance/chat",
+                        "icon": "MessageSquare",
+                        "permission": "compliance.chat.view"
+                    },
+                    {
+                        "id": "compliance_frameworks",
+                        "title": "Frameworks",
+                        "href": "/workspace/compliance/frameworks",
+                        "icon": "ShieldCheck",
+                        "permission": "compliance.frameworks.view"
+                    },
+                    {
+                        "id": "compliance_controls",
+                        "title": "Controls",
+                        "href": "/workspace/compliance/controls",
+                        "icon": "Shield",
+                        "permission": "compliance.controls.view"
+                    },
+                    {
+                        "id": "compliance_evidence",
+                        "title": "Evidence",
+                        "href": "/workspace/compliance/evidence",
+                        "icon": "FileText",
+                        "permission": "compliance.evidence.view"
+                    },
+                    {
+                        "id": "compliance_policies",
+                        "title": "Policies",
+                        "href": "/workspace/compliance/policies",
+                        "icon": "FileText",
+                        "permission": "compliance.policies.view"
+                    },
+                    {
+                        "id": "compliance_audits",
+                        "title": "Audits",
+                        "href": "/workspace/compliance/audits",
+                        "icon": "Search",
+                        "permission": "compliance.audits.view"
+                    },
+                    {
+                        "id": "compliance_reports",
+                        "title": "Reports",
+                        "href": "/workspace/compliance/reports",
+                        "icon": "BarChart3",
+                        "permission": "compliance.reports.view"
+                    },
+                    {
+                        "id": "compliance_tools",
+                        "title": "Tools",
+                        "href": "/workspace/compliance/tools",
+                        "icon": "Settings",
+                        "permission": "compliance.tools.view"
                     }
                 ]
             },
@@ -102,6 +178,13 @@ def get_navigation(request):
                 "title": "My Tools",
                 "icon": "Tool",
                 "items": [
+                    {
+                        "id": "user_features_overview",
+                        "title": "Overview",
+                        "href": "/workspace/tools/overview",
+                        "icon": "LayoutDashboard",
+                        "permission": "user_features.overview.view"
+                    },
                     {
                         "id": "site_audit",
                         "title": "Site Audit",
@@ -187,6 +270,13 @@ def get_navigation(request):
                 "icon": "GraduationCap",
                 "items": [
                     {
+                        "id": "collateral_overview",
+                        "title": "Overview",
+                        "href": "/workspace/collateral/overview",
+                        "icon": "LayoutDashboard",
+                        "permission": "collateral.overview.view"
+                    },
+                    {
                         "id": "collateral_main",
                         "title": "Learning & Resources",
                         "href": "/workspace/collateral",
@@ -200,6 +290,13 @@ def get_navigation(request):
                 "title": "Integrations",
                 "icon": "Plug",
                 "items": [
+                    {
+                        "id": "integrations_overview",
+                        "title": "Overview",
+                        "href": "/workspace/integrations/overview",
+                        "icon": "LayoutDashboard",
+                        "permission": "integrations.overview.view"
+                    },
                     {
                         "id": "google_analytics",
                         "title": "Google Analytics",
@@ -234,7 +331,7 @@ def get_navigation(request):
                         "title": "Overview",
                         "href": "/workspace/admin-overview",
                         "icon": "LayoutDashboard",
-                        "permission": "dashboard.view"
+                        "permission": "admin_features.overview.view"
                     },
                     {
                         "id": "users",
@@ -363,6 +460,13 @@ def get_navigation(request):
                 "icon": "User",
                 "items": [
                     {
+                        "id": "account_overview",
+                        "title": "Overview",
+                        "href": "/workspace/account/overview",
+                        "icon": "LayoutDashboard",
+                        "permission": "account.overview.view"
+                    },
+                    {
                         "id": "profile",
                         "title": "Profile",
                         "href": "/workspace/profile",
@@ -383,18 +487,42 @@ def get_navigation(request):
         ]
     }
     
-    # Filter navigation by permissions
-    filtered_navigation = filter_navigation_by_permissions(
-        navigation_structure, 
-        user_permissions_list
-    )
+    # Superusers bypass permission filtering - they see everything
+    # CRITICAL: Always include compliance for superusers
+    if request.user.is_superuser:
+        filtered_navigation = navigation_structure
+        compliance_section = next((s for s in filtered_navigation.get('sections', []) if s.get('id') == 'compliance'), None)
+        logger.error(f"🔴 SUPERUSER DETECTED - User: {request.user.username}, is_superuser: {request.user.is_superuser}")
+        logger.error(f"🔴 Returning full navigation: {len(filtered_navigation.get('sections', []))} sections")
+        if compliance_section:
+            logger.error(f"✅ Compliance section found with {len(compliance_section.get('items', []))} items")
+        else:
+            logger.error("❌❌❌ COMPLIANCE SECTION NOT FOUND IN NAVIGATION STRUCTURE! ❌❌❌")
+            logger.error(f"Available sections: {[s.get('id') for s in filtered_navigation.get('sections', [])]}")
+    else:
+        logger.error(f"🔴 NOT SUPERUSER - User: {request.user.username}, is_superuser: {request.user.is_superuser}")
+        # Filter navigation by permissions for regular users
+        filtered_navigation = filter_navigation_by_permissions(
+            navigation_structure, 
+            user_permissions_list
+        )
+        
+        # Debug logging (remove in production)
+        logger.debug(f"Filtered navigation sections: {len(filtered_navigation.get('sections', []))}")
+        for section in filtered_navigation.get('sections', []):
+            logger.debug(f"Section: {section.get('id')}, Items: {len(section.get('items', []))}")
+            for item in section.get('items', []):
+                logger.debug(f"  Item: {item.get('id')} ({item.get('title')}) - Permission: {item.get('permission')}")
     
-    # Debug logging (remove in production)
-    logger.debug(f"Filtered navigation sections: {len(filtered_navigation.get('sections', []))}")
-    for section in filtered_navigation.get('sections', []):
-        logger.debug(f"Section: {section.get('id')}, Items: {len(section.get('items', []))}")
-        for item in section.get('items', []):
-            logger.debug(f"  Item: {item.get('id')} ({item.get('title')}) - Permission: {item.get('permission')}")
+    # CRITICAL: Log what's actually being returned
+    sections_returned = [s.get('id') for s in filtered_navigation.get('sections', [])]
+    logger.error(f"🔴🔴🔴 FINAL RESPONSE - Sections being returned: {sections_returned}")
+    compliance_in_response = 'compliance' in sections_returned
+    logger.error(f"🔴 Compliance in final response: {compliance_in_response}")
+    if not compliance_in_response:
+        logger.error(f"🔴🔴🔴 COMPLIANCE MISSING FROM FINAL RESPONSE! 🔴🔴🔴")
+        logger.error(f"🔴 All sections in navigation_structure: {[s.get('id') for s in navigation_structure.get('sections', [])]}")
+        logger.error(f"🔴 All sections in filtered_navigation: {sections_returned}")
     
     return Response(filtered_navigation)
 
@@ -431,10 +559,80 @@ def get_sidebar_matrix(request):
                 "items": [
                     {
                         "id": "overview",
-                        "title": "Overview",
-                        "href": "/workspace",
+                        "title": "Home",
+                        "href": "/workspace/home",
                         "icon": "LayoutDashboard",
-                        "permission": "dashboard.view"
+                        "permission": "workspace.overview.view"
+                    }
+                ]
+            },
+            {
+                "id": "compliance",
+                "title": "Compliance",
+                "icon": "ShieldCheck",
+                "items": [
+                    {
+                        "id": "compliance_overview",
+                        "title": "Overview",
+                        "href": "/workspace/compliance/overview",
+                        "icon": "LayoutDashboard",
+                        "permission": "compliance.overview.view"
+                    },
+                    {
+                        "id": "compliance_chat",
+                        "title": "Chat",
+                        "href": "/workspace/compliance/chat",
+                        "icon": "MessageSquare",
+                        "permission": "compliance.chat.view"
+                    },
+                    {
+                        "id": "compliance_frameworks",
+                        "title": "Frameworks",
+                        "href": "/workspace/compliance/frameworks",
+                        "icon": "ShieldCheck",
+                        "permission": "compliance.frameworks.view"
+                    },
+                    {
+                        "id": "compliance_controls",
+                        "title": "Controls",
+                        "href": "/workspace/compliance/controls",
+                        "icon": "Shield",
+                        "permission": "compliance.controls.view"
+                    },
+                    {
+                        "id": "compliance_evidence",
+                        "title": "Evidence",
+                        "href": "/workspace/compliance/evidence",
+                        "icon": "FileText",
+                        "permission": "compliance.evidence.view"
+                    },
+                    {
+                        "id": "compliance_policies",
+                        "title": "Policies",
+                        "href": "/workspace/compliance/policies",
+                        "icon": "FileText",
+                        "permission": "compliance.policies.view"
+                    },
+                    {
+                        "id": "compliance_audits",
+                        "title": "Audits",
+                        "href": "/workspace/compliance/audits",
+                        "icon": "Search",
+                        "permission": "compliance.audits.view"
+                    },
+                    {
+                        "id": "compliance_reports",
+                        "title": "Reports",
+                        "href": "/workspace/compliance/reports",
+                        "icon": "BarChart3",
+                        "permission": "compliance.reports.view"
+                    },
+                    {
+                        "id": "compliance_tools",
+                        "title": "Tools",
+                        "href": "/workspace/compliance/tools",
+                        "icon": "Settings",
+                        "permission": "compliance.tools.view"
                     }
                 ]
             },
@@ -443,6 +641,13 @@ def get_sidebar_matrix(request):
                 "title": "My Tools",
                 "icon": "Tool",
                 "items": [
+                    {
+                        "id": "user_features_overview",
+                        "title": "Overview",
+                        "href": "/workspace/tools/overview",
+                        "icon": "LayoutDashboard",
+                        "permission": "user_features.overview.view"
+                    },
                     {
                         "id": "site_audit",
                         "title": "Site Audit",
@@ -528,6 +733,13 @@ def get_sidebar_matrix(request):
                 "icon": "GraduationCap",
                 "items": [
                     {
+                        "id": "collateral_overview",
+                        "title": "Overview",
+                        "href": "/workspace/collateral/overview",
+                        "icon": "LayoutDashboard",
+                        "permission": "collateral.overview.view"
+                    },
+                    {
                         "id": "collateral_main",
                         "title": "Learning & Resources",
                         "href": "/workspace/collateral",
@@ -541,6 +753,13 @@ def get_sidebar_matrix(request):
                 "title": "Integrations",
                 "icon": "Plug",
                 "items": [
+                    {
+                        "id": "integrations_overview",
+                        "title": "Overview",
+                        "href": "/workspace/integrations/overview",
+                        "icon": "LayoutDashboard",
+                        "permission": "integrations.overview.view"
+                    },
                     {
                         "id": "google_analytics",
                         "title": "Google Analytics",
@@ -575,7 +794,7 @@ def get_sidebar_matrix(request):
                         "title": "Overview",
                         "href": "/workspace/admin-overview",
                         "icon": "LayoutDashboard",
-                        "permission": "dashboard.view"
+                        "permission": "admin_features.overview.view"
                     },
                     {
                         "id": "users",
@@ -704,6 +923,13 @@ def get_sidebar_matrix(request):
                 "icon": "User",
                 "items": [
                     {
+                        "id": "account_overview",
+                        "title": "Overview",
+                        "href": "/workspace/account/overview",
+                        "icon": "LayoutDashboard",
+                        "permission": "account.overview.view"
+                    },
+                    {
                         "id": "profile",
                         "title": "Profile",
                         "href": "/workspace/profile",
@@ -731,7 +957,16 @@ def get_sidebar_matrix(request):
     # Build sidebar items with role access
     sidebar_items = []
     
+    # Debug: Log compliance section processing
+    import logging
+    logger = logging.getLogger(__name__)
+    compliance_section_found = False
+    
     for section in navigation_structure.get('sections', []):
+        if section.get('id') == 'compliance':
+            compliance_section_found = True
+            logger.info(f"Processing compliance section with {len(section.get('items', []))} items")
+        
         for item in section.get('items', []):
             # Get required permissions for this item
             item_permission = item.get('permission', '')
@@ -813,6 +1048,16 @@ def get_sidebar_matrix(request):
                 "href": item.get('href'),
                 "role_access": role_access
             })
+            
+            # Debug: Log compliance items
+            if section.get('id') == 'compliance':
+                logger.info(f"Added compliance item: {item.get('id')} ({item.get('title')}) with {len(required_permissions)} required permissions")
+    
+    # Debug: Verify compliance items were added
+    compliance_items_count = len([item for item in sidebar_items if item.get('section') == 'compliance'])
+    logger.info(f"Total compliance items in sidebar_items: {compliance_items_count}")
+    if compliance_section_found and compliance_items_count == 0:
+        logger.warning("Compliance section found but no items were added!")
     
     # Calculate summary
     summary = {

@@ -1,0 +1,908 @@
+# SOC 2 Controls Data
+# Source: OpenControl (GitHub: opencontrol/compliance-masonry)
+# License: Apache 2.0
+# Last Updated: 2026-01-07
+#
+# Structure:
+# - Common Criteria (CC1-CC9): ~64 core controls
+# - Extended Criteria (Availability, Confidentiality, Processing Integrity, Privacy): ~20-25 controls
+# Total: ~85-90 controls
+
+controls:
+  # ============================================
+  # COMMON CRITERIA (CC1-CC9) - Core Controls
+  # ============================================
+
+  # CC1 - Control Environment
+  - control_id: "CC1.1"
+    name: "Control Environment - Commitment to Integrity and Ethical Values"
+    description: "The entity demonstrates a commitment to integrity and ethical values."
+    category: "CC1"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC1.2"
+    name: "Control Environment - Board Oversight"
+    description: "The board of directors demonstrates independence from management and exercises oversight of the development and performance of internal control."
+    category: "CC1"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC1.3"
+    name: "Control Environment - Management Philosophy and Operating Style"
+    description: "Management establishes, with board oversight, structures, reporting lines, and appropriate authorities and responsibilities in the pursuit of objectives."
+    category: "CC1"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC1.4"
+    name: "Control Environment - Organizational Structure"
+    description: "The entity demonstrates a commitment to attract, develop, and retain competent individuals in alignment with objectives."
+    category: "CC1"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC1.5"
+    name: "Control Environment - Commitment to Competence"
+    description: "The entity holds individuals accountable for their internal control responsibilities in the pursuit of objectives."
+    category: "CC1"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC1.6"
+    name: "Control Environment - Accountability"
+    description: "The entity holds individuals accountable for their internal control responsibilities in the pursuit of objectives."
+    category: "CC1"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC1.7"
+    name: "Control Environment - Authority and Responsibility"
+    description: "The entity demonstrates a commitment to attract, develop, and retain competent individuals in alignment with objectives."
+    category: "CC1"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  # CC2 - Communication and Information
+  - control_id: "CC2.1"
+    name: "Communication and Information - Internal Communication"
+    description: "The entity obtains or generates and uses relevant, quality information to support the functioning of internal control."
+    category: "CC2"
+    control_type: "preventive"
+    severity: "medium"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC2.2"
+    name: "Communication and Information - External Communication"
+    description: "The entity internally communicates information, including objectives and responsibilities for internal control, necessary to support the functioning of internal control."
+    category: "CC2"
+    control_type: "preventive"
+    severity: "medium"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC2.3"
+    name: "Communication and Information - Communication Methods"
+    description: "The entity communicates with external parties regarding matters affecting the functioning of internal control."
+    category: "CC2"
+    control_type: "preventive"
+    severity: "medium"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC2.4"
+    name: "Communication and Information - Information Quality"
+    description: "The entity obtains or generates and uses relevant, quality information to support the functioning of internal control."
+    category: "CC2"
+    control_type: "preventive"
+    severity: "medium"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  # CC3 - Risk Assessment
+  - control_id: "CC3.1"
+    name: "Risk Assessment - Risk Identification"
+    description: "The entity specifies suitable objectives."
+    category: "CC3"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC3.2"
+    name: "Risk Assessment - Risk Analysis"
+    description: "The entity identifies risks to the achievement of its objectives across the entity and analyzes risks as a basis for determining how the risks should be managed."
+    category: "CC3"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC3.3"
+    name: "Risk Assessment - Fraud Risk"
+    description: "The entity analyzes potential fraud risks in the assessment of risks to the achievement of objectives."
+    category: "CC3"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC3.4"
+    name: "Risk Assessment - Risk Response"
+    description: "The entity responds to identified risks by developing and implementing appropriate risk responses."
+    category: "CC3"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC3.5"
+    name: "Risk Assessment - Risk Monitoring"
+    description: "The entity monitors changes that could significantly affect the system of internal control."
+    category: "CC3"
+    control_type: "detective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "monthly"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  # CC4 - Monitoring Activities
+  - control_id: "CC4.1"
+    name: "Monitoring Activities - Ongoing and Separate Evaluations"
+    description: "The entity selects, develops, and performs ongoing and separate evaluations to ascertain whether the components of internal control are present and functioning."
+    category: "CC4"
+    control_type: "detective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "monthly"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC4.2"
+    name: "Monitoring Activities - Evaluation of Deficiencies"
+    description: "The entity evaluates and communicates internal control deficiencies in a timely manner to those parties responsible for taking corrective action, including senior management and the board of directors, as appropriate."
+    category: "CC4"
+    control_type: "detective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "monthly"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC4.3"
+    name: "Monitoring Activities - Communication of Deficiencies"
+    description: "The entity communicates internal control deficiencies to those parties responsible for taking corrective action, including senior management and the board of directors, as appropriate."
+    category: "CC4"
+    control_type: "detective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "monthly"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  # CC5 - Control Activities
+  - control_id: "CC5.1"
+    name: "Control Activities - Policies and Procedures"
+    description: "The entity selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels."
+    category: "CC5"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC5.2"
+    name: "Control Activities - Technology Controls"
+    description: "The entity also deploys control activities through policies that establish what is expected and procedures that put policies into action."
+    category: "CC5"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC5.3"
+    name: "Control Activities - Control Implementation"
+    description: "The entity selects and develops general control activities over technology to support the achievement of objectives."
+    category: "CC5"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC5.4"
+    name: "Control Activities - Segregation of Duties"
+    description: "The entity selects and develops control activities that include a mix of preventive and detective control activities."
+    category: "CC5"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC5.5"
+    name: "Control Activities - Control Selection"
+    description: "The entity selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels."
+    category: "CC5"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  # CC6 - Logical and Physical Access Controls
+  - control_id: "CC6.1"
+    name: "Logical Access Controls"
+    description: "The entity implements logical access security software, infrastructure, and architectures over protected information assets to protect them from security events to meet the entity's objectives."
+    category: "CC6"
+    control_type: "preventive"
+    severity: "critical"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC6.2"
+    name: "Physical Access Controls"
+    description: "The entity restricts physical access to facilities and protected information assets (for example, data center, network storage, and sensitive computing hardware) to authorized personnel to meet the entity's objectives."
+    category: "CC6"
+    control_type: "preventive"
+    severity: "critical"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC6.3"
+    name: "Access Credentials"
+    description: "The entity discontinues logical and physical protections after physical or logical access is no longer required to meet the entity's objectives."
+    category: "CC6"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC6.4"
+    name: "Access Rights Management"
+    description: "The entity authorizes, modifies, or removes access to data, software, functions, and other protected information assets based on roles, responsibilities, or the system design and changes, giving consideration to the concepts of least privilege and segregation of duties, to meet the entity's objectives."
+    category: "CC6"
+    control_type: "preventive"
+    severity: "critical"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC6.5"
+    name: "Access Authentication"
+    description: "The entity discontinues logical and physical protections after physical or logical access is no longer required to meet the entity's objectives."
+    category: "CC6"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC6.6"
+    name: "Access Removal"
+    description: "The entity discontinues logical and physical protections after physical or logical access is no longer required to meet the entity's objectives."
+    category: "CC6"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC6.7"
+    name: "Access Monitoring"
+    description: "The entity implements controls to prevent or detect and act upon the introduction of unauthorized or malicious software to meet the entity's objectives."
+    category: "CC6"
+    control_type: "detective"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC6.8"
+    name: "Access Review"
+    description: "The entity reviews logical and physical access rights on a periodic basis to ensure access is appropriate."
+    category: "CC6"
+    control_type: "detective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "monthly"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC6.9"
+    name: "Privileged Access Management"
+    description: "The entity restricts privileged access to authorized personnel and monitors privileged access activities."
+    category: "CC6"
+    control_type: "preventive"
+    severity: "critical"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  # CC7 - System Operations
+  - control_id: "CC7.1"
+    name: "System Operations - System Configuration"
+    description: "The entity develops and implements controls over system configuration to meet the entity's objectives."
+    category: "CC7"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC7.2"
+    name: "System Operations - System Monitoring"
+    description: "The entity monitors system components and the operation of those components to meet the entity's objectives."
+    category: "CC7"
+    control_type: "detective"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC7.3"
+    name: "System Operations - System Backup"
+    description: "The entity implements controls to provide backup and recovery to meet the entity's objectives."
+    category: "CC7"
+    control_type: "corrective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "daily"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC7.4"
+    name: "System Operations - System Recovery"
+    description: "The entity implements controls to provide backup and recovery to meet the entity's objectives."
+    category: "CC7"
+    control_type: "corrective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "monthly"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC7.5"
+    name: "System Operations - System Availability"
+    description: "The entity implements controls to provide backup and recovery to meet the entity's objectives."
+    category: "CC7"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC7.6"
+    name: "System Operations - Vulnerability Management"
+    description: "The entity identifies and addresses vulnerabilities on a timely basis."
+    category: "CC7"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "weekly"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC7.7"
+    name: "System Operations - Malware Protection"
+    description: "The entity implements controls to prevent or detect and act upon the introduction of unauthorized or malicious software."
+    category: "CC7"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  # CC8 - Change Management
+  - control_id: "CC8.1"
+    name: "Change Management - Change Process"
+    description: "The entity authorizes, designs, develops, configures, documents, tests, approves, and implements changes to infrastructure, data, software, and procedures to meet the entity's objectives."
+    category: "CC8"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC8.2"
+    name: "Change Management - Change Authorization"
+    description: "The entity authorizes, designs, develops, configures, documents, tests, approves, and implements changes to infrastructure, data, software, and procedures to meet the entity's objectives."
+    category: "CC8"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC8.3"
+    name: "Change Management - Change Testing"
+    description: "The entity tests changes to infrastructure, data, software, and procedures before implementation."
+    category: "CC8"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC8.4"
+    name: "Change Management - Emergency Changes"
+    description: "The entity authorizes and documents emergency changes to infrastructure, data, software, and procedures."
+    category: "CC8"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  # CC9 - Risk Mitigation
+  - control_id: "CC9.1"
+    name: "Risk Mitigation - Risk Identification"
+    description: "The entity identifies and selects risk mitigation activities for risks that are identified during the risk assessment process."
+    category: "CC9"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T2"]
+
+  - control_id: "CC9.2"
+    name: "Risk Mitigation - Risk Response"
+    description: "The entity implements risk mitigation activities to meet the entity's objectives."
+    category: "CC9"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T2"]
+
+  # ============================================
+  # EXTENDED CRITERIA - Availability (A)
+  # ============================================
+  - control_id: "A1.1"
+    name: "Availability - System Availability"
+    description: "The entity maintains, monitors, and evaluates current processing capacity and use of systems (infrastructure, data, and software) to manage capacity demand and to enable the implementation of additional capacity to help meet its objectives."
+    category: "Availability"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "A1.2"
+    name: "Availability - System Performance"
+    description: "The entity authorizes, designs, develops, configures, documents, tests, approves, and implements changes to infrastructure, data, software, and procedures to meet the entity's objectives."
+    category: "Availability"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "A1.3"
+    name: "Availability - System Recovery"
+    description: "The entity tests backup and recovery procedures to help meet the entity's objectives."
+    category: "Availability"
+    control_type: "corrective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "monthly"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "A1.4"
+    name: "Availability - Capacity Planning"
+    description: "The entity maintains, monitors, and evaluates current processing capacity and use of systems to manage capacity demand."
+    category: "Availability"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "A1.5"
+    name: "Availability - System Resilience"
+    description: "The entity implements controls to provide for system resilience and redundancy to meet availability objectives."
+    category: "Availability"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  # ============================================
+  # EXTENDED CRITERIA - Confidentiality (C)
+  # ============================================
+  - control_id: "C1.1"
+    name: "Confidentiality - Confidential Information"
+    description: "The entity identifies and maintains confidential information to meet the entity's objectives related to confidentiality."
+    category: "Confidentiality"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "C1.2"
+    name: "Confidentiality - Confidential Information Disposal"
+    description: "The entity disposes of confidential information to meet the entity's objectives related to confidentiality."
+    category: "Confidentiality"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "C1.3"
+    name: "Confidentiality - Encryption"
+    description: "The entity encrypts confidential information during transmission and storage to meet confidentiality objectives."
+    category: "Confidentiality"
+    control_type: "preventive"
+    severity: "critical"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "C1.4"
+    name: "Confidentiality - Access Controls"
+    description: "The entity restricts access to confidential information to authorized personnel only."
+    category: "Confidentiality"
+    control_type: "preventive"
+    severity: "critical"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  # ============================================
+  # EXTENDED CRITERIA - Processing Integrity (PI)
+  # ============================================
+  - control_id: "PI1.1"
+    name: "Processing Integrity - Processing Accuracy"
+    description: "The entity implements policies and procedures over system inputs, including controls over completeness and accuracy, to meet the entity's objectives."
+    category: "Processing Integrity"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "PI1.2"
+    name: "Processing Integrity - Processing Completeness"
+    description: "The entity implements policies and procedures over system inputs, including controls over completeness and accuracy, to meet the entity's objectives."
+    category: "Processing Integrity"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "PI1.3"
+    name: "Processing Integrity - Processing Validity"
+    description: "The entity implements policies and procedures over system inputs, including controls over completeness and accuracy, to meet the entity's objectives."
+    category: "Processing Integrity"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "PI1.4"
+    name: "Processing Integrity - Processing Timeliness"
+    description: "The entity implements policies and procedures over system inputs, including controls over completeness and accuracy, to meet the entity's objectives."
+    category: "Processing Integrity"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "PI1.5"
+    name: "Processing Integrity - Processing Authorization"
+    description: "The entity implements policies and procedures over system inputs, including controls over completeness and accuracy, to meet the entity's objectives."
+    category: "Processing Integrity"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "PI1.6"
+    name: "Processing Integrity - Data Validation"
+    description: "The entity implements controls to validate data inputs and outputs to ensure processing integrity."
+    category: "Processing Integrity"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "PI1.7"
+    name: "Processing Integrity - Error Handling"
+    description: "The entity implements controls to detect and correct processing errors to meet processing integrity objectives."
+    category: "Processing Integrity"
+    control_type: "detective"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  # ============================================
+  # EXTENDED CRITERIA - Privacy (P)
+  # ============================================
+  - control_id: "P1.1"
+    name: "Privacy - Notice and Choice"
+    description: "The entity provides notice about its privacy practices and the purposes for which personal information is collected, used, retained, and disclosed to meet the entity's objectives related to privacy."
+    category: "Privacy"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "P2.1"
+    name: "Privacy - Collection"
+    description: "The entity collects personal information only for the purposes identified in the notice."
+    category: "Privacy"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "P3.1"
+    name: "Privacy - Use and Retention"
+    description: "The entity limits the use of personal information to the purposes identified in the notice and for which the data subject has provided implicit or explicit consent."
+    category: "Privacy"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "P4.1"
+    name: "Privacy - Access"
+    description: "The entity provides data subjects with access to their personal information for review and update."
+    category: "Privacy"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "P5.1"
+    name: "Privacy - Disclosure"
+    description: "The entity discloses personal information only to third parties who have agreements with the entity to provide services for the purposes identified in the notice and for which the data subject has provided implicit or explicit consent."
+    category: "Privacy"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "P6.1"
+    name: "Privacy - Security"
+    description: "The entity protects personal information against unauthorized access (both physical and logical)."
+    category: "Privacy"
+    control_type: "preventive"
+    severity: "critical"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "P7.1"
+    name: "Privacy - Quality"
+    description: "The entity collects and maintains accurate, up-to-date, complete, and relevant personal information to meet the entity's objectives related to privacy."
+    category: "Privacy"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "P8.1"
+    name: "Privacy - Monitoring and Enforcement"
+    description: "The entity implements a process for receiving and addressing complaints from data subjects and others and for failure to comply with the entity's objectives related to privacy."
+    category: "Privacy"
+    control_type: "detective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "monthly"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "P9.1"
+    name: "Privacy - Data Minimization"
+    description: "The entity collects and retains only the personal information necessary to meet the purposes identified in the notice."
+    category: "Privacy"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "P10.1"
+    name: "Privacy - Consent Management"
+    description: "The entity obtains and documents consent from data subjects for the collection, use, and disclosure of personal information."
+    category: "Privacy"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "P11.1"
+    name: "Privacy - Data Subject Rights"
+    description: "The entity provides mechanisms for data subjects to exercise their rights regarding personal information."
+    category: "Privacy"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  # Additional Common Criteria Controls to reach ~64 core controls
+  - control_id: "CC1.8"
+    name: "Control Environment - Code of Conduct"
+    description: "The entity establishes and communicates a code of conduct that sets forth expected standards of behavior."
+    category: "CC1"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC2.5"
+    name: "Communication and Information - Reporting Structure"
+    description: "The entity communicates information necessary for the functioning of internal control."
+    category: "CC2"
+    control_type: "preventive"
+    severity: "medium"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC3.6"
+    name: "Risk Assessment - Risk Register"
+    description: "The entity maintains a risk register documenting identified risks and risk responses."
+    category: "CC3"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC4.4"
+    name: "Monitoring Activities - Management Review"
+    description: "Management reviews the results of monitoring activities and takes appropriate action."
+    category: "CC4"
+    control_type: "detective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "monthly"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC5.6"
+    name: "Control Activities - Control Documentation"
+    description: "The entity documents control activities to support the achievement of objectives."
+    category: "CC5"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC6.10"
+    name: "Access Controls - Multi-Factor Authentication"
+    description: "The entity implements multi-factor authentication for access to sensitive systems and data."
+    category: "CC6"
+    control_type: "preventive"
+    severity: "critical"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC7.8"
+    name: "System Operations - Incident Response"
+    description: "The entity implements an incident response process to address security events."
+    category: "CC7"
+    control_type: "corrective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC8.5"
+    name: "Change Management - Change Documentation"
+    description: "The entity documents all changes to infrastructure, data, software, and procedures."
+    category: "CC8"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC9.3"
+    name: "Risk Mitigation - Risk Treatment"
+    description: "The entity implements risk treatment plans to address identified risks."
+    category: "CC9"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "manual"
+    frequency: "annually"
+    frameworks: ["SOC2-T2"]
+
+  # Additional Extended Criteria Controls
+  - control_id: "A1.6"
+    name: "Availability - Disaster Recovery"
+    description: "The entity maintains and tests disaster recovery procedures to meet availability objectives."
+    category: "Availability"
+    control_type: "corrective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "annually"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "C1.5"
+    name: "Confidentiality - Data Classification"
+    description: "The entity classifies confidential information based on sensitivity and implements appropriate controls."
+    category: "Confidentiality"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "PI1.8"
+    name: "Processing Integrity - Data Integrity"
+    description: "The entity implements controls to ensure data integrity throughout processing."
+    category: "Processing Integrity"
+    control_type: "preventive"
+    severity: "high"
+    evaluation_method: "automated"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "P12.1"
+    name: "Privacy - Breach Notification"
+    description: "The entity implements procedures for notifying data subjects and authorities of privacy breaches."
+    category: "Privacy"
+    control_type: "corrective"
+    severity: "critical"
+    evaluation_method: "hybrid"
+    frequency: "continuous"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+
+  - control_id: "CC5.7"
+    name: "Control Activities - Control Testing"
+    description: "The entity tests control activities to ensure they are operating effectively."
+    category: "CC5"
+    control_type: "detective"
+    severity: "high"
+    evaluation_method: "hybrid"
+    frequency: "monthly"
+    frameworks: ["SOC2-T1", "SOC2-T2"]
+

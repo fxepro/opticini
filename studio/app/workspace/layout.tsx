@@ -86,9 +86,15 @@ export default function WorkspaceLayout({
     // Fetch user info and navigation
     // Add cache-busting timestamp to ensure fresh data (prevents browser/API caching)
     const cacheBuster = `?t=${Date.now()}`;
+    // Construct URLs properly - handle empty API_BASE (relative URLs)
+    // Remove trailing slash from API_BASE if present, then add path with trailing slash before query params
+    const baseUrl = API_BASE?.replace(/\/$/, '') || '';
+    const userInfoUrl = `${baseUrl}/api/user-info/${cacheBuster}`;
+    const navigationUrl = `${baseUrl}/api/navigation/${cacheBuster}`;
+    
     Promise.all([
-      makeRequest(`${API_BASE}/api/user-info/${cacheBuster}`, token),
-      makeRequest(`${API_BASE}/api/navigation/${cacheBuster}`, token),
+      makeRequest(userInfoUrl, token),
+      makeRequest(navigationUrl, token),
     ])
       .then(([userRes, navRes]) => {
         setUser(userRes.data);
@@ -105,15 +111,18 @@ export default function WorkspaceLayout({
               console.log(`  - ${item.id}: ${item.title} (${item.href})`);
             });
           });
-          // Check for specific items
+          // Check for specific items (debug-only)
           const allItems = allSections.flatMap((s: any) => s.items || []);
+          const complianceSection = allSections.find((s: any) => s.id === 'compliance');
           const siteAuditItem = allItems.find((item: any) => item.id === 'site_audit');
           const aiMonitoringItem = allItems.find((item: any) => item.id === 'ai_health');
           const dbMonitoringItem = allItems.find((item: any) => item.id === 'database_monitoring');
+          console.log('Compliance section present:', !!complianceSection);
           console.log('Site Audit item found:', siteAuditItem);
           console.log('AI Monitoring item found:', aiMonitoringItem);
           console.log('Database Monitoring item found:', dbMonitoringItem);
           console.log('User permissions:', userRes.data?.permissions?.length || 0);
+          console.log('User is_superuser:', userRes.data?.is_superuser);
           console.log('Has ai_health.view:', userRes.data?.permissions?.includes('ai_health.view'));
           console.log('Has database_monitoring.view:', userRes.data?.permissions?.includes('database_monitoring.view'));
           console.log('======================');
@@ -122,20 +131,38 @@ export default function WorkspaceLayout({
       })
       .catch((err) => {
         console.error("Error loading workspace:", err);
-        console.error("API_BASE:", API_BASE);
-        console.error("Request URL:", `${API_BASE}/api/navigation/`);
+        console.error("API_BASE:", API_BASE || '(empty - using relative URLs)');
+        console.error("User Info URL:", userInfoUrl);
+        console.error("Navigation URL:", navigationUrl);
         console.error("Error response:", err.response?.data);
         console.error("Error status:", err.response?.status);
         console.error("Error message:", err.message);
+        console.error("Error code:", err.code);
+        
+        // Handle network errors (CORS, connection refused, etc.)
+        if (err.code === 'ERR_NETWORK' || err.message === 'Network Error' || !err.response) {
+          console.error("Network Error: Cannot connect to API. Check that:");
+          console.error("1. Django backend is running");
+          console.error("2. NEXT_PUBLIC_API_BASE_URL is set correctly in environment variables");
+          console.error("3. CORS is configured to allow requests from this origin");
+          console.error("4. API endpoint is accessible");
+          // Don't clear tokens on network errors - might be temporary
+          setLoading(false);
+          return;
+        }
         
         // Clear tokens on any auth error
-        if (err.response?.status === 401 || !err.response) {
+        if (err.response?.status === 401) {
           localStorage.removeItem("access_token");
           localStorage.removeItem("refresh_token");
           router.push("/workspace/login");
         } else if (err.response?.status === 404) {
           // 404 means API endpoint not found - likely nginx routing issue
           console.error("404 Error: API endpoint not found. Check nginx configuration to proxy /api/* to Django backend.");
+          setLoading(false);
+        } else {
+          // Other errors - don't redirect, just show error state
+          setLoading(false);
         }
       });
   }, [router, pathname]);

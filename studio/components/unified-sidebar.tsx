@@ -107,10 +107,12 @@ export function UnifiedSidebar({ navigation, currentPath, collapsed = false, onT
 
   if (!navigation || !navigation.sections) {
     return (
-      <aside className={cn(
-        "fixed left-0 top-0 h-screen border-r border-gray-200 bg-gray-100 shadow-lg transition-all duration-300 flex flex-col z-40",
-        collapsed ? "w-20" : "w-64"
-      )}>
+      <aside 
+        className={cn(
+          "fixed left-0 top-0 h-screen border-r border-palette-accent-1 bg-palette-accent-1 shadow-lg transition-all duration-300 flex flex-col z-40",
+          collapsed ? "w-20" : "w-64"
+        )}
+      >
         <div className="p-4 text-sm text-gray-500">No navigation available</div>
       </aside>
     );
@@ -198,18 +200,17 @@ export function UnifiedSidebar({ navigation, currentPath, collapsed = false, onT
     console.log('Sidebar - Navigation sections:', navigation.sections.length);
     console.log('Sidebar - Filtered sections:', transformedSections.length);
     console.log('Sidebar - Permissions:', permissions.length);
-    console.log('Sidebar - Full navigation:', JSON.stringify(navigation, null, 2));
-    // Check for site-audit specifically
-    const allItems = navigation.sections.flatMap(s => s.items || []);
-    const siteAuditItem = allItems.find(item => item.id === 'site_audit');
-    console.log('Sidebar - Site Audit item:', siteAuditItem);
-    console.log('Sidebar - All items:', allItems.map(i => ({ id: i.id, title: i.title, href: i.href })));
+    // Check for compliance section specifically
+    const complianceSection = navigation.sections.find(s => s.id === 'compliance');
+    const complianceInTransformed = transformedSections.find(s => s.id === 'compliance');
+    console.log('Compliance section in raw:', complianceSection ? 'YES' : 'NO');
+    console.log('Compliance section in transformed:', complianceInTransformed ? 'YES' : 'NO');
   }
 
   return (
-    <aside
+      <aside
       className={cn(
-        "fixed left-0 top-0 h-screen border-r border-gray-200 bg-gray-100 shadow-lg transition-all duration-300 flex flex-col z-40",
+        "fixed left-0 top-0 h-screen border-r border-palette-accent-1 bg-palette-accent-1 shadow-lg transition-all duration-300 flex flex-col z-40",
         collapsed ? "w-20" : "w-64"
       )}
     >
@@ -284,7 +285,7 @@ export function UnifiedSidebar({ navigation, currentPath, collapsed = false, onT
                         collapsed ? "justify-center" : "space-x-3"
                       )}
                     >
-                      {IconComponent && <IconComponent className="h-5 w-5 flex-shrink-0" />}
+                      {IconComponent && <IconComponent className={cn("flex-shrink-0", collapsed ? "h-8 w-8" : "h-5 w-5")} />}
                       {!collapsed && (
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium truncate">{item.title}</p>
