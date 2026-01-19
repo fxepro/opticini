@@ -104,7 +104,7 @@ export function GenerateReportDialog({
       }
 
       const baseUrl = API_BASE?.replace(/\/$/, '') || '';
-      const url = `${baseUrl}/api/compliance/reports/create/`;
+      const url = `${baseUrl}/api/compliance/reports/`;
 
       const payload = {
         name: reportName,

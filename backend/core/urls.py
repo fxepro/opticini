@@ -113,6 +113,7 @@ urlpatterns += [
     path('', include('compliance_frameworks.urls')),  # Compliance Frameworks
     path('api/compliance/', include('compliance_controls.urls')),  # Compliance Controls
     path('api/compliance/', include('compliance_evidence.urls')),  # Compliance Evidence
+    path('api/compliance/', include('compliance_reports.urls')),  # Compliance Reports
     path('api/compliance/tools/', include('compliance_tools.urls')),  # Compliance Tools
     path('favicon.ico', favicon_view, name='favicon'),  # Prevent 404s in logs
 ]

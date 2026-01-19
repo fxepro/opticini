@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,13 +13,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BarChart3, Search, Filter, Table2, Grid3x3, Plus, Download } from "lucide-react";
-import { Report, reports, ReportStatus, ReportType, ReportView } from "@/lib/data/reports";
+import { Report, ReportStatus, ReportType, ReportView } from "@/lib/data/reports";
 import { ReportsTable } from "@/components/compliance/reports-table";
 import { ReportCard } from "@/components/compliance/report-card";
 import { ReportDetailDrawer } from "@/components/compliance/report-detail-drawer";
 import { GenerateReportDialog } from "@/components/compliance/generate-report-dialog";
 import { Framework } from "@/lib/data/frameworks";
-import { useEffect } from "react";
 import axios from "axios";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? (typeof window !== 'undefined' ? '' : 'http://localhost:8000');
@@ -36,6 +35,9 @@ export default function ComplianceReportsPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
   const [frameworks, setFrameworks] = useState<Framework[]>([]);
+  const [reports, setReports] = useState<Report[]>([]);
+  const [reportsLoading, setReportsLoading] = useState(false);
+  const [reportsError, setReportsError] = useState<string | null>(null);
 
   // Get unique frameworks from reports
   const allFrameworks = useMemo(() => {
@@ -44,7 +46,7 @@ export default function ComplianceReportsPage() {
       report.frameworkNames.forEach((name) => frameworks.add(name));
     });
     return Array.from(frameworks).sort();
-  }, []);
+  }, [reports]);
 
   // Filter reports
   const filteredReports = useMemo(() => {
@@ -83,7 +85,7 @@ export default function ComplianceReportsPage() {
 
       return true;
     });
-  }, [searchQuery, statusFilter, typeFilter, viewFilter, frameworkFilter]);
+  }, [reports, searchQuery, statusFilter, typeFilter, viewFilter, frameworkFilter]);
 
   // Calculate statistics
   const stats = useMemo(() => {
@@ -102,7 +104,7 @@ export default function ComplianceReportsPage() {
       failed,
       totalShares,
     };
-  }, []);
+  }, [reports]);
 
   const handleSelect = (id: string) => {
     setSelectedReports((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]));
@@ -121,14 +123,48 @@ export default function ComplianceReportsPage() {
     setDrawerOpen(true);
   };
 
-  const handleDownload = (reportId: string) => {
-    // TODO: Connect to backend API
-    console.log(`Download report ${reportId}`);
+  const handleDownload = async (reportId: string) => {
+    const existing = reports.find((r) => r.id === reportId);
+    const existingUrl = existing?.downloadUrl || existing?.fileUrl;
+    if (existingUrl) {
+      window.open(existingUrl, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("access_token");
+      if (!token) throw new Error("Not authenticated");
+      const baseUrl = API_BASE?.replace(/\/$/, '') || '';
+      const url = `${baseUrl}/api/compliance/reports/${reportId}/download/`;
+      const response = await makeAuthenticatedRequest(url, token);
+      if (response?.data?.download_url) {
+        window.open(response.data.download_url, "_blank", "noopener,noreferrer");
+      } else {
+        alert("Report file is not available yet");
+      }
+    } catch (err: any) {
+      console.error("Download failed:", err);
+      alert(err.response?.data?.error || err.message || "Download failed");
+    }
   };
 
-  const handleShare = (reportId: string) => {
-    // TODO: Connect to backend API
-    console.log(`Share report ${reportId}`);
+  const handleShare = async (reportId: string) => {
+    try {
+      const token = localStorage.getItem("access_token");
+      if (!token) throw new Error("Not authenticated");
+      const baseUrl = API_BASE?.replace(/\/$/, '') || '';
+      const url = `${baseUrl}/api/compliance/reports/${reportId}/share/`;
+      const response = await makeAuthenticatedPost(url, token, {});
+      if (response?.data?.link) {
+        await navigator.clipboard.writeText(response.data.link);
+        alert("Share link copied to clipboard");
+      } else {
+        alert("Share link not available");
+      }
+    } catch (err: any) {
+      console.error("Share failed:", err);
+      alert(err.response?.data?.error || err.message || "Share failed");
+    }
   };
 
   // Helper function to refresh token
@@ -179,6 +215,93 @@ export default function ComplianceReportsPage() {
     }
   };
 
+  const makeAuthenticatedPost = async (url: string, currentToken: string, payload: any) => {
+    try {
+      return await axios.post(url, payload, {
+        headers: { Authorization: `Bearer ${currentToken}` },
+      });
+    } catch (err: any) {
+      if (err.response?.status === 401) {
+        const newToken = await refreshAccessToken();
+        if (newToken) {
+          return await axios.post(url, payload, {
+            headers: { Authorization: `Bearer ${newToken}` },
+          });
+        }
+        throw err;
+      }
+      throw err;
+    }
+  };
+
+  const mapReport = (report: any): Report => ({
+    id: report.id,
+    reportId: report.report_id,
+    name: report.name,
+    description: report.description || undefined,
+    type: report.type,
+    frameworks: report.framework_ids || [],
+    frameworkNames: report.framework_names || [],
+    status: report.status,
+    view: report.view,
+    dateRangeStart: report.date_range_start || undefined,
+    dateRangeEnd: report.date_range_end || undefined,
+    includesEvidence: report.includes_evidence ?? false,
+    evidenceCount: report.evidence_count ?? undefined,
+    includesControls: report.includes_controls ?? false,
+    controlCount: report.control_count ?? undefined,
+    includesPolicies: report.includes_policies ?? false,
+    policyCount: report.policy_count ?? undefined,
+    templateId: report.template_id || undefined,
+    templateName: report.template_name || undefined,
+    generatedAt: report.generated_at || undefined,
+    generatedBy: report.generated_by || undefined,
+    fileFormat: report.file_format || "pdf",
+    fileSize: report.file_size ?? undefined,
+    fileUrl: report.file_url || undefined,
+    downloadUrl: report.download_url || undefined,
+    shares: report.shares?.map((share: any) => ({
+      id: share.id,
+      link: share.link,
+      expiresAt: share.expires_at || undefined,
+      passwordProtected: share.password_protected ?? false,
+      accessCount: share.access_count ?? 0,
+      createdAt: share.created_at,
+      createdBy: share.created_by || undefined,
+    })),
+    shareCount: report.share_count ?? 0,
+    isPublic: report.is_public ?? false,
+    createdAt: report.created_at,
+    createdBy: report.created_by || undefined,
+    updatedAt: report.updated_at,
+    updatedBy: report.updated_by || undefined,
+    errorMessage: report.error_message || undefined,
+    retryCount: report.retry_count ?? undefined,
+    summary: report.summary || undefined,
+  });
+
+  const fetchReports = async () => {
+    try {
+      setReportsLoading(true);
+      setReportsError(null);
+      const token = localStorage.getItem("access_token");
+      if (!token) return;
+      const baseUrl = API_BASE?.replace(/\/$/, '') || '';
+      const url = `${baseUrl}/api/compliance/reports/`;
+      const response = await makeAuthenticatedRequest(url, token);
+      if (Array.isArray(response.data)) {
+        setReports(response.data.map(mapReport));
+      } else {
+        setReports([]);
+      }
+    } catch (err: any) {
+      console.error("Error fetching reports:", err);
+      setReportsError(err.response?.data?.error || err.message || "Failed to fetch reports");
+    } finally {
+      setReportsLoading(false);
+    }
+  };
+
   // Fetch frameworks for report generation
   useEffect(() => {
     const fetchFrameworks = async () => {
@@ -217,6 +340,7 @@ export default function ComplianceReportsPage() {
     };
 
     fetchFrameworks();
+    fetchReports();
   }, []);
 
   return (
@@ -399,7 +523,22 @@ export default function ComplianceReportsPage() {
 
       {/* Results */}
       <div>
-        {filteredReports.length === 0 ? (
+        {reportsLoading ? (
+          <Card>
+            <CardContent className="pt-12 pb-12 text-center">
+              <BarChart3 className="h-12 w-12 text-slate-400 mx-auto mb-4 animate-pulse" />
+              <p className="text-slate-600 font-medium">Loading reports...</p>
+            </CardContent>
+          </Card>
+        ) : reportsError ? (
+          <Card>
+            <CardContent className="pt-12 pb-12 text-center">
+              <BarChart3 className="h-12 w-12 text-slate-400 mx-auto mb-4" />
+              <p className="text-slate-600 font-medium">Unable to load reports</p>
+              <p className="text-sm text-slate-500 mt-2">{reportsError}</p>
+            </CardContent>
+          </Card>
+        ) : filteredReports.length === 0 ? (
           <Card>
             <CardContent className="pt-12 pb-12 text-center">
               <BarChart3 className="h-12 w-12 text-slate-400 mx-auto mb-4" />
@@ -449,8 +588,7 @@ export default function ComplianceReportsPage() {
         onClose={() => setReportDialogOpen(false)}
         frameworks={frameworks}
         onReportGenerated={() => {
-          // Optionally refresh reports list
-          console.log("Report generated successfully");
+          fetchReports();
         }}
       />
     </div>

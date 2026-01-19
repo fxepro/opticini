@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: opticini
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      DEBUG: "false"
+      SECRET_KEY: "change-me"
+      DB_NAME: opticini
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: db
+      DB_PORT: "5432"
+      FRONTEND_URL: "http://localhost:3001"
+      NEXT_PUBLIC_API_BASE_URL: "http://localhost:8000"
+      CORS_ALLOW_ALL_ORIGINS: "true"
+    depends_on:
+      - db
+    volumes:
+      - media:/app/media
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             gunicorn core.wsgi:application --bind 0.0.0.0:8000"
+
+  frontend:
+    build:
+      context: ./studio
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: "http://backend:8000"
+      NEXT_PUBLIC_APP_URL: "http://localhost:3001"
+    depends_on:
+      - backend
+    ports:
+      - "3001:3001"
+
+volumes:
+  pgdata:
+  media:
