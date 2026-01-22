@@ -435,7 +435,7 @@ if AWS_SES_REGION_ENDPOINT:
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory where collectstatic will gather all static files
 
 # Default primary key field type
@@ -537,7 +537,7 @@ try:
     SECURE_HSTS_PRELOAD = SECURE_HSTS_PRELOAD
     
     # Security Headers
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_PROXY_SSL_HEADER = 'HTTP_X_FORWARDED_PROTO', 'https'
     SECURE_CONTENT_TYPE_NOSNIFF = SECURE_CONTENT_TYPE_NOSNIFF
     SECURE_BROWSER_XSS_FILTER = SECURE_BROWSER_XSS_FILTER
     X_FRAME_OPTIONS = X_FRAME_OPTIONS
