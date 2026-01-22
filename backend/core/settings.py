@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+from urllib.parse import urlparse
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -138,6 +139,51 @@ def get_env_list(key, default=None):
         return ensure_list(None, default_list)
 
 
+def _is_ip_address(hostname: str) -> bool:
+    """Return True when hostname is an IPv4 address."""
+    parts = hostname.split(".")
+    if len(parts) != 4:
+        return False
+    for part in parts:
+        if not part.isdigit():
+            return False
+        value = int(part)
+        if value < 0 or value > 255:
+            return False
+    return True
+
+
+def _frontend_origin_variants(url: str) -> list[str]:
+    """Build HTTPS/HTTP and www/naked variants for a frontend URL."""
+    if not url:
+        return []
+    parsed = urlparse(url)
+    if not parsed.scheme or not parsed.netloc:
+        return [url]
+
+    host = parsed.netloc.split(":")[0]
+    variants = {url}
+
+    # Add www/naked variant for domains (but not localhost or IPs)
+    if host not in ("localhost", "127.0.0.1") and not _is_ip_address(host):
+        if host.startswith("www."):
+            alt_host = host[4:]
+        else:
+            alt_host = f"www.{host}"
+        variants.add(f"{parsed.scheme}://{alt_host}")
+
+    # Add HTTP/HTTPS variant for each
+    expanded = set()
+    for origin in variants:
+        expanded.add(origin)
+        if origin.startswith("https://"):
+            expanded.add(origin.replace("https://", "http://", 1))
+        elif origin.startswith("http://"):
+            expanded.add(origin.replace("http://", "https://", 1))
+
+    return sorted(expanded)
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -169,13 +215,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 csrf_defaults = ['http://localhost:8000', 'http://127.0.0.1:8000']
 # Auto-add production domain from FRONTEND_URL if set
 if FRONTEND_URL:
-    # Add both HTTP and HTTPS versions if FRONTEND_URL is HTTPS
-    if FRONTEND_URL.startswith('https://'):
-        csrf_defaults.append(FRONTEND_URL)
-        csrf_defaults.append(FRONTEND_URL.replace('https://', 'http://'))
-    elif FRONTEND_URL.startswith('http://'):
-        csrf_defaults.append(FRONTEND_URL)
-        csrf_defaults.append(FRONTEND_URL.replace('http://', 'https://'))
+    csrf_defaults.extend(_frontend_origin_variants(FRONTEND_URL))
 CSRF_TRUSTED_ORIGINS = get_env_list('CSRF_TRUSTED_ORIGINS', default=csrf_defaults)
 
 # Warn if using insecure defaults
@@ -186,7 +226,7 @@ if DEBUG and SECRET_KEY.startswith('django-insecure-'):
         UserWarning
     )
 
-APPEND_SLASH = True
+APPEND_SLASH = False
 
 
 # Application definition
@@ -335,12 +375,7 @@ cors_defaults = [
 ]
 # Auto-add production frontend URL if set
 if FRONTEND_URL:
-    cors_defaults.append(FRONTEND_URL)
-    # Also add HTTP/HTTPS variant
-    if FRONTEND_URL.startswith('https://'):
-        cors_defaults.append(FRONTEND_URL.replace('https://', 'http://'))
-    elif FRONTEND_URL.startswith('http://'):
-        cors_defaults.append(FRONTEND_URL.replace('http://', 'https://'))
+    cors_defaults.extend(_frontend_origin_variants(FRONTEND_URL))
 CORS_ALLOWED_ORIGINS = get_env_list('CORS_ALLOWED_ORIGINS', default=cors_defaults)
 CORS_ALLOW_HEADERS = [
     'accept',
@@ -494,7 +529,7 @@ try:
     )
     
     # HTTPS Enforcement
-    SECURE_SSL_REDIRECT = SECURE_SSL_REDIRECT
+    SECURE_SSL_REDIRECT = True
     
     # HSTS (HTTP Strict Transport Security)
     SECURE_HSTS_SECONDS = SECURE_HSTS_SECONDS
@@ -502,6 +537,7 @@ try:
     SECURE_HSTS_PRELOAD = SECURE_HSTS_PRELOAD
     
     # Security Headers
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_CONTENT_TYPE_NOSNIFF = SECURE_CONTENT_TYPE_NOSNIFF
     SECURE_BROWSER_XSS_FILTER = SECURE_BROWSER_XSS_FILTER
     X_FRAME_OPTIONS = X_FRAME_OPTIONS

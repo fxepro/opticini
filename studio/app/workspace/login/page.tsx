@@ -109,6 +109,7 @@ export default function WorkspaceLoginPage() {
                   placeholder="Enter your username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  autoComplete="username"
                   className="pl-10"
                   required
                   disabled={loading}
@@ -126,6 +127,7 @@ export default function WorkspaceLoginPage() {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
                   className="pl-10"
                   required
                   disabled={loading}
